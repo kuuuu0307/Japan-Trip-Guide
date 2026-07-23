@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>にほんご旅の相棒 | Japan Trip Study Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Shippori+Mincho:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #F1E6CB;
+    --bg-deep: #E8D9B4;
+    --card: #FFFCF4;
+    --card-soft: #FBF2DE;
+    --ink: #3A2E20;
+    --ink-soft: #7A6A50;
+    --line: #DCC89A;
+    --teal: #4E7C78;
+    --teal-dark: #345653;
+    --teal-pale: #D9E6E1;
+    --rose: #C4694F;
+    --rose-pale: #F3DED4;
+    --navy: #33546A;
+    --navy-pale: #DCE6EA;
+    --gold: #C4922F;
+    --gold-pale: #F3E3BB;
+    --stamp-red: #B0473C;
+    --shadow: 0 6px 18px rgba(58,46,32,0.10);
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(circle at 8% 8%, rgba(255,255,255,0.5), transparent 40%),
+      radial-gradient(circle at 95% 15%, rgba(196,105,79,0.06), transparent 45%),
+      var(--bg);
+    color:var(--ink);
+    font-family:'Zen Maru Gothic', 'Hiragino Maru Gothic Pro', sans-serif;
+    min-height:100vh;
+    padding-bottom:60px;
+  }
+
+  /* ---------- HEADER ---------- */
+  header{
+    padding:26px 18px 18px;
+    text-align:center;
+    position:relative;
+  }
+  .eyebrow{
+    font-size:12px;
+    letter-spacing:.18em;
+    color:var(--teal-dark);
+    font-weight:700;
+    text-transform:uppercase;
+  }
+  h1{
+    font-size:clamp(26px,5vw,38px);
+    margin:6px 0 4px;
+    font-weight:900;
+    color:var(--ink);
+    letter-spacing:.02em;
+  }
+  h1 .accent{color:var(--rose);}
+  .subtitle{
+    color:var(--ink-soft);
+    font-size:14px;
+    max-width:520px;
+    margin:0 auto;
+    line-height:1.6;
+  }
+
+  /* ---------- STAMP ---------- */
+  .stamp{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:44px;height:44px;
+    min-width:44px;
+    border-radius:50%;
+    border:2.5px solid currentColor;
+    font-family:'Shippori Mincho', serif;
+    font-weight:700;
+    font-size:19px;
+    position:relative;
+  }
+  .stamp::after{
+    content:'';
+    position:absolute;
+    inset:4px;
+    border-radius:50%;
+    border:1px solid currentColor;
+    opacity:.5;
+  }
+
+  /* ---------- CONTROL BAR ---------- */
+  .control-bar{
+    position:sticky;
+    top:0;
+    z-index:50;
+    background:rgba(241,230,203,0.94);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+    padding:10px 12px;
+  }
+  .control-inner{
+    max-width:920px;
+    margin:0 auto;
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+  }
+  .tabs{
+    display:flex;
+    gap:8px;
+    overflow-x:auto;
+    padding:2px;
+    scrollbar-width:none;
+    max-width:100%;
+    justify-content:center;
+    flex-wrap:wrap;
+  }
+  .tabs::-webkit-scrollbar{display:none;}
+  .tab-btn{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    background:var(--card);
+    border:1.5px solid var(--line);
+    border-radius:999px;
+    padding:6px 14px 6px 6px;
+    font-family:inherit;
+    font-weight:700;
+    font-size:13.5px;
+    color:var(--ink-soft);
+    cursor:pointer;
+    white-space:nowrap;
+    transition:all .18s ease;
+  }
+  .tab-btn .stamp{
+    width:28px;height:28px;min-width:28px;
+    font-size:13px;
+    color:var(--ink-soft);
+    border-color:currentColor;
+  }
+  .tab-btn:hover{border-color:var(--teal);color:var(--teal-dark);}
+  .tab-btn.active{
+    background:var(--teal-dark);
+    color:#fff;
+    border-color:var(--teal-dark);
+    box-shadow:var(--shadow);
+  }
+  .tab-btn.active .stamp{color:#fff;}
+
+  .action-row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+    justify-content:center;
+    padding-top:4px;
+    border-top:1px dashed var(--line);
+    margin-top:8px;
+    padding:8px 4px 2px;
+  }
+  #playAllBtn{
+    display:flex;align-items:center;gap:8px;
+    background:var(--rose);
+    color:#fff;
+    border:none;
+    border-radius:999px;
+    padding:9px 18px;
+    font-family:inherit;
+    font-weight:700;
+    font-size:13.5px;
+    cursor:pointer;
+    box-shadow:var(--shadow);
+    transition:transform .12s ease;
+  }
+  #playAllBtn:active{transform:scale(.96);}
+  #playAllBtn.playing{background:var(--stamp-red);}
+
+  .speed-group{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    background:var(--card);
+    border:1.5px solid var(--line);
+    border-radius:999px;
+    padding:4px;
+  }
+  .speed-label{font-size:11.5px;color:var(--ink-soft);font-weight:700;padding-left:8px;}
+  .speed-btn{
+    border:none;
+    background:transparent;
+    padding:6px 12px;
+    border-radius:999px;
+    font-family:inherit;
+    font-weight:700;
+    font-size:12.5px;
+    color:var(--ink-soft);
+    cursor:pointer;
+  }
+  .speed-btn.active{background:var(--teal);color:#fff;}
+
+  .voice-note{
+    font-size:11px;
+    color:var(--ink-soft);
+    text-align:center;
+    max-width:920px;
+    margin:6px auto 0;
+    display:none;
+  }
+  .voice-note.show{display:block;}
+
+  /* ---------- MAIN ---------- */
+  main{max-width:920px;margin:0 auto;padding:22px 14px 10px;}
+  .tab-panel{display:none;animation:fade .25s ease;}
+  .tab-panel.active{display:block;}
+  @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+  .tab-intro{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    margin-bottom:22px;
+    padding:16px 18px;
+    background:var(--card-soft);
+    border:1px solid var(--line);
+    border-radius:18px;
+  }
+  .tab-intro .stamp{color:var(--stamp-red);width:52px;height:52px;font-size:22px;min-width:52px;}
+  .tab-intro h2{margin:0 0 2px;font-size:20px;}
+  .tab-intro p{margin:0;color:var(--ink-soft);font-size:13.5px;}
+
+  section.block{
+    margin-bottom:28px;
+  }
+  .block-title{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:12px;
+  }
+  .block-title .num{
+    font-family:'Shippori Mincho',serif;
+    font-weight:700;
+    color:var(--gold);
+    font-size:13px;
+    border:1px solid var(--gold);
+    border-radius:999px;
+    padding:2px 10px;
+  }
+  .block-title h3{
+    margin:0;
+    font-size:18px;
+    font-weight:700;
+  }
+  .block-note{
+    font-size:12.5px;
+    color:var(--ink-soft);
+    margin:-6px 0 12px 2px;
+  }
+
+  /* ---------- VOCAB GRID ---------- */
+  .vocab-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
+    gap:12px;
+  }
+  .vocab-card{
+    background:var(--card);
+    border:1.5px solid var(--line);
+    border-radius:16px;
+    padding:14px 10px 12px;
+    text-align:center;
+    cursor:pointer;
+    transition:transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+    position:relative;
+  }
+  .vocab-card:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:var(--teal);}
+  .vocab-card.playing{border-color:var(--rose);background:var(--rose-pale);}
+  .vocab-emoji{font-size:34px;line-height:1;margin-bottom:8px;display:block;}
+  .vocab-jp{font-weight:700;font-size:16px;margin-bottom:2px;}
+  .vocab-romaji{font-size:11px;color:var(--ink-soft);font-style:italic;margin-bottom:4px;}
+  .vocab-en{font-size:12.5px;color:var(--teal-dark);font-weight:500;}
+  .mini-play{
+    position:absolute;
+    top:8px;right:8px;
+    width:24px;height:24px;
+    border-radius:50%;
+    background:var(--teal-pale);
+    display:flex;align-items:center;justify-content:center;
+    font-size:11px;
+    color:var(--teal-dark);
+  }
+
+  /* ---------- DIALOGUE ---------- */
+  .dialogue-wrap{
+    background:var(--card);
+    border:1.5px solid var(--line);
+    border-radius:18px;
+    padding:18px 16px;
+  }
+  .dlg-line{
+    display:flex;
+    gap:10px;
+    align-items:flex-end;
+    margin-bottom:14px;
+  }
+  .dlg-line:last-child{margin-bottom:0;}
+  .dlg-line.speakerB{flex-direction:row-reverse;}
+  .dlg-avatar{
+    width:36px;height:36px;min-width:36px;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:16px;
+    font-weight:700;
+    color:#fff;
+  }
+  .speakerA .dlg-avatar{background:var(--rose);}
+  .speakerB .dlg-avatar{background:var(--navy);}
+  .bubble{
+    max-width:78%;
+    padding:11px 15px;
+    border-radius:18px;
+    cursor:pointer;
+    position:relative;
+    transition:transform .1s ease, box-shadow .12s ease;
+    border:1.5px solid transparent;
+  }
+  .speakerA .bubble{
+    background:var(--rose-pale);
+    border-bottom-left-radius:5px;
+  }
+  .speakerB .bubble{
+    background:var(--navy-pale);
+    border-bottom-right-radius:5px;
+    text-align:right;
+  }
+  .bubble:hover{transform:translateY(-2px);box-shadow:var(--shadow);}
+  .bubble.playing{border-color:var(--stamp-red);box-shadow:var(--shadow);}
+  .bubble .jp{font-weight:700;font-size:15.5px;margin-bottom:3px;}
+  .bubble .romaji{font-size:11px;color:var(--ink-soft);font-style:italic;margin-bottom:3px;}
+  .bubble .en{font-size:12.5px;color:var(--ink-soft);}
+  .bubble .tap-hint{font-size:9.5px;color:var(--ink-soft);opacity:.6;margin-top:4px;}
+
+  /* ---------- PHRASE LIST ---------- */
+  .phrase-list{display:flex;flex-direction:column;gap:9px;}
+  .phrase-item{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    background:var(--card);
+    border:1.5px solid var(--line);
+    border-radius:14px;
+    padding:12px 14px;
+    cursor:pointer;
+    transition:border-color .12s ease, background .12s ease;
+  }
+  .phrase-item:hover{border-color:var(--teal);}
+  .phrase-item.playing{border-color:var(--rose);background:var(--rose-pale);}
+  .phrase-play{
+    width:34px;height:34px;min-width:34px;
+    border-radius:50%;
+    background:var(--teal);
+    color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-size:13px;
+  }
+  .phrase-text .jp{font-weight:700;font-size:15px;}
+  .phrase-text .romaji{font-size:11px;color:var(--ink-soft);font-style:italic;margin-top:1px;}
+  .phrase-text .en{font-size:12.5px;color:var(--ink-soft);margin-top:1px;}
+
+  /* ---------- QUIZ ---------- */
+  .quiz-card{
+    background:var(--card);
+    border:1.5px solid var(--line);
+    border-radius:16px;
+    padding:14px 16px;
+    margin-bottom:12px;
+  }
+  .quiz-q{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    cursor:pointer;
+  }
+  .quiz-q .phrase-play{background:var(--gold);}
+  .quiz-q.playing .phrase-play{background:var(--stamp-red);}
+  .quiz-q .jp{font-weight:700;font-size:15px;}
+  .quiz-q .en{font-size:12px;color:var(--ink-soft);}
+  .quiz-toggle{
+    margin-top:8px;
+    font-size:11.5px;
+    color:var(--teal-dark);
+    font-weight:700;
+    cursor:pointer;
+    display:inline-block;
+    border-bottom:1px dashed var(--teal-dark);
+  }
+  .quiz-answer{
+    display:none;
+    margin-top:10px;
+    padding-top:10px;
+    border-top:1px dashed var(--line);
+    align-items:center;
+    gap:12px;
+  }
+  .quiz-answer.show{display:flex;}
+  .quiz-answer .phrase-play{background:var(--teal);width:30px;height:30px;min-width:30px;font-size:11px;}
+  .quiz-answer.playing .phrase-play{background:var(--rose);}
+  .quiz-answer .jp{font-weight:700;font-size:14px;color:var(--teal-dark);}
+  .quiz-answer .en{font-size:11.5px;color:var(--ink-soft);}
+
+  /* ---------- INFO CARD (no audio, culture notes) ---------- */
+  .info-card{
+    background:var(--gold-pale);
+    border:1.5px solid var(--gold);
+    border-radius:16px;
+    padding:16px 18px;
+    margin-bottom:14px;
+  }
+  .info-card h4{margin:0 0 8px;font-size:14.5px;color:var(--stamp-red);}
+  .info-card ul{margin:0;padding-left:18px;font-size:13px;color:var(--ink);line-height:1.7;}
+  .info-card p{margin:4px 0 0;font-size:13px;line-height:1.7;}
+
+  footer{
+    text-align:center;
+    color:var(--ink-soft);
+    font-size:11.5px;
+    padding:30px 14px 10px;
+  }
+
+  @media (max-width:520px){
+    .bubble{max-width:86%;}
+    .vocab-grid{grid-template-columns:repeat(auto-fill,minmax(118px,1fr));}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">Tap · Listen · Learn</div>
+  <h1>にほんご旅<span class="accent">の相棒</span></h1>
+  <p class="subtitle">Your interactive Japanese study companion — tap any phrase to hear it spoken aloud, then get ready for your trip.</p>
+</header>
+
+<div class="control-bar">
+  <div class="control-inner" id="tabBar"></div>
+  <div class="action-row">
+    <button id="playAllBtn">▶ &nbsp;Play all in this tab</button>
+    <div class="speed-group">
+      <span class="speed-label">SPEED</span>
+      <button class="speed-btn" data-rate="0.62">🐢 Slow</button>
+      <button class="speed-btn active" data-rate="0.95">🚶 Normal</button>
+      <button class="speed-btn" data-rate="1.35">🐇 Fast</button>
+    </div>
+  </div>
+</div>
+<div class="voice-note" id="voiceNote">⚠️ No Japanese voice was found on this device. Audio may sound off, or fall back to a default voice. iOS/Android/Chrome usually include one automatically.</div>
+
+<main id="main"></main>
+
+<footer>作ってね、良い旅を！ 🎌 &nbsp;Tap any 🔊 phrase, anywhere, anytime — even offline once loaded.</footer>
+
+<script>
+/* =========================================================
+   DATA
+   ========================================================= */
+const TABS = [
+  {
+    id:'directions', label:'Directions', sub:'Directions', stamp:'道',
+    intro:'Everything you need to ask for — and give — directions on the street.',
+    sections:[
+      {type:'vocab', title:'Places｜ばしょ', items:[
+        {emoji:'✈️', jp:'くうこう', romaji:'kuukou', en:'airport'},
+        {emoji:'🚉', jp:'えき', romaji:'eki', en:'station'},
+        {emoji:'🚏', jp:'バスてい', romaji:'basutei', en:'bus stop'},
+        {emoji:'🌉', jp:'はし', romaji:'hashi', en:'bridge'},
+        {emoji:'🍽️', jp:'レストラン', romaji:'resutoran', en:'restaurant'},
+        {emoji:'☕', jp:'カフェ', romaji:'kafe', en:'cafe'},
+        {emoji:'🏨', jp:'ホテル', romaji:'hoteru', en:'hotel'},
+        {emoji:'🏯', jp:'りょかん', romaji:'ryokan', en:'traditional inn'},
+      ]},
+      {type:'vocab', title:'Giving Directions', items:[
+        {emoji:'⬆️', jp:'まっすぐいきます', romaji:'massugu ikimasu', en:'go straight'},
+        {emoji:'↩️', jp:'ひだりにまがります', romaji:'hidari ni magarimasu', en:'turn left'},
+        {emoji:'↪️', jp:'みぎにまがります', romaji:'migi ni magarimasu', en:'turn right'},
+        {emoji:'➕', jp:'こうさてん', romaji:'kousaten', en:'intersection'},
+        {emoji:'📐', jp:'かど', romaji:'kado', en:'corner'},
+        {emoji:'↔️', jp:'よこ', romaji:'yoko', en:'beside / next to'},
+        {emoji:'↕️', jp:'あいだ', romaji:'aida', en:'between'},
+        {emoji:'📍', jp:'まえ', romaji:'mae', en:'in front of'},
+        {emoji:'🚦', jp:'しんごう', romaji:'shingou', en:'traffic light'},
+      ]},
+      {type:'dialogue', title:'Asking for Directions', lines:[
+        {speaker:'A', who:'You', jp:'すみません。えきはどこですか？', romaji:'Sumimasen. Eki wa doko desu ka?', en:'Excuse me, where is the station?'},
+        {speaker:'B', who:'Local', jp:'まっすぐいって、みぎにまがってください。', romaji:'Massugu itte, migi ni magatte kudasai.', en:'Go straight, then turn right.'},
+        {speaker:'A', who:'You', jp:'ありがとうございます！', romaji:'Arigatou gozaimasu!', en:'Thank you!'},
+      ]},
+      {type:'phrases', title:'Practice: “go straight, then...”', items:[
+        {jp:'まっすぐいって、ひだりにまがってください。', romaji:'Massugu itte, hidari ni magatte kudasai.', en:'Go straight, then turn left.'},
+        {jp:'まっすぐいって、はしをわたってください。', romaji:'Massugu itte, hashi o watatte kudasai.', en:'Go straight, then cross the bridge.'},
+        {jp:'みぎにまがって、まっすぐいってください。', romaji:'Migi ni magatte, massugu itte kudasai.', en:'Turn right, then go straight.'},
+        {jp:'こうさてんをひだりにまがって、しんごうをひだりにまがってください。', romaji:'Kousaten o hidari ni magatte, shingou o hidari ni magatte kudasai.', en:'Turn left at the intersection, then turn left at the light.'},
+        {jp:'まっすぐいって、はしをわたって、みぎにまがってください。', romaji:'Massugu itte, hashi o watatte, migi ni magatte kudasai.', en:'Go straight, cross the bridge, then turn right.'},
+      ]},
+      {type:'dialogue', title:'Calling a Taxi', lines:[
+        {speaker:'A', who:'You', jp:'すみません。おおさかじょうまでおねがいします。', romaji:'Sumimasen. Oosakajou made onegaishimasu.', en:'Excuse me, to Osaka Castle, please.'},
+        {speaker:'B', who:'Driver', jp:'わかりました。', romaji:'Wakarimashita.', en:'Understood.'},
+      ]},
+      {type:'info', title:'Taxi Tip', body:'Look for a <b>red sign (空車)</b> meaning vacant — green/blue usually means occupied. You can also book with the <b>GO</b> taxi app (go.goinc.jp/lp/inbound).'},
+    ]
+  },
+  {
+    id:'transport', label:'Transportation', sub:'Transportation', stamp:'駅',
+    intro:'Vocabulary and phrases for trains, buses, and getting your ticket sorted.',
+    sections:[
+      {type:'vocab', title:'Vehicles｜のりもの', items:[
+        {emoji:'🚃', jp:'でんしゃ', romaji:'densha', en:'train'},
+        {emoji:'🚇', jp:'ちかてつ', romaji:'chikatetsu', en:'subway'},
+        {emoji:'🚄', jp:'しんかんせん', romaji:'shinkansen', en:'bullet train'},
+        {emoji:'🚌', jp:'バス', romaji:'basu', en:'bus'},
+        {emoji:'✈️', jp:'ひこうき', romaji:'hikouki', en:'airplane'},
+      ]},
+      {type:'vocab', title:'Places', items:[
+        {emoji:'🚉', jp:'えき', romaji:'eki', en:'station'},
+        {emoji:'🚏', jp:'バスてい', romaji:'basutei', en:'bus stop'},
+        {emoji:'🛫', jp:'くうこう', romaji:'kuukou', en:'airport'},
+      ]},
+      {type:'vocab', title:'Others', items:[
+        {emoji:'🎫', jp:'きっぷ', romaji:'kippu', en:'ticket'},
+        {emoji:'🚧', jp:'かいさつ', romaji:'kaisatsu', en:'ticket gate'},
+        {emoji:'💳', jp:'ICカード', romaji:'ai-shii kaado', en:'IC card'},
+        {emoji:'🔒', jp:'コインロッカー', romaji:'koin rokkaa', en:'coin locker'},
+        {emoji:'🚪', jp:'でぐち・いりぐち', romaji:'deguchi / iriguchi', en:'exit / entrance'},
+      ]},
+      {type:'phrases', title:'Station & Bus Phrases', items:[
+        {jp:'○○えきはどこですか？', romaji:'○○ eki wa doko desu ka?', en:'Where is ○○ station?'},
+        {jp:'このバスは○○にいきますか。', romaji:'Kono basu wa ○○ ni ikimasu ka?', en:'Does this bus go to ○○?'},
+        {jp:'つぎのバスはなんじですか。', romaji:'Tsugi no basu wa nanji desu ka?', en:'What time is the next bus?'},
+        {jp:'きっぷをかいたいです。', romaji:'Kippu o kaitai desu.', en:"I'd like to buy a ticket."},
+      ]},
+      {type:'phrases', title:'～たい “I want to...”', items:[
+        {jp:'まんがをかいたいです。', romaji:'Manga o kaitai desu.', en:'I want to buy manga.'},
+        {jp:'とんかつをたべたいです。', romaji:'Tonkatsu o tabetai desu.', en:'I want to eat tonkatsu.'},
+        {jp:'ハイボールをのみたいです。', romaji:'Haiboru o nomitai desu.', en:'I want to drink a highball.'},
+        {jp:'あつかんをのみたいです。', romaji:'Atsukan o nomitai desu.', en:'I want to drink warm sake.'},
+        {jp:'にほんにいきたいです。', romaji:'Nihon ni ikitai desu.', en:'I want to go to Japan.'},
+      ]},
+      {type:'info', title:'Good to Know', body:'Local trains: eating is usually avoided. <b>Shinkansen</b>: totally fine — try an <b>ekiben</b> (station bento)! Keep your voice down, use earphones for music, and don\'t talk on the phone on trains/buses. In <b>Tokyo</b> stand on the <b>left</b> of escalators; in <b>Osaka</b> stand on the <b>right</b> — leave the other side open for walkers.'},
+    ]
+  },
+  {
+    id:'hotel', label:'Hotel', sub:'Hotel', stamp:'宿',
+    intro:'Check-in, check-out, and everything in between — hotels and traditional ryokan.',
+    sections:[
+      {type:'vocab', title:'Hotel Vocabulary', items:[
+        {emoji:'🔑', jp:'チェックイン', romaji:'chekku in', en:'check-in'},
+        {emoji:'🚪', jp:'チェックアウト', romaji:'chekku auto', en:'check-out'},
+        {emoji:'🧳', jp:'にもつ', romaji:'nimotsu', en:'baggage'},
+        {emoji:'🍳', jp:'ちょうしょく', romaji:'choushoku', en:'breakfast'},
+        {emoji:'🛎️', jp:'フロント', romaji:'furonto', en:'front desk'},
+      ]},
+      {type:'phrases', title:'5 Essential Phrases', items:[
+        {jp:'チェックインおねがいします。', romaji:'Chekku in onegaishimasu.', en:"I'd like to check in."},
+        {jp:'にもつをあずけたいです。', romaji:'Nimotsu o azuketai desu.', en:"I'd like to leave my luggage."},
+        {jp:'ちょうしょくはどこですか。', romaji:'Choushoku wa doko desu ka?', en:'Where is the breakfast area?'},
+        {jp:'ちょうしょくはなんじからですか。', romaji:'Choushoku wa nanji kara desu ka?', en:'What time does breakfast start?'},
+        {jp:'ちょうしょくはなんじまでですか。', romaji:'Choushoku wa nanji made desu ka?', en:'Until what time is breakfast served?'},
+      ]},
+      {type:'dialogue', title:'Asking About Hours', lines:[
+        {speaker:'A', who:'You', jp:'すみません。レストランはなんじからですか？', romaji:'Sumimasen. Resutoran wa nanji kara desu ka?', en:'Excuse me, what time does the restaurant open?'},
+        {speaker:'B', who:'Staff', jp:'10じからです。', romaji:'Juuji kara desu.', en:'From 10 o\'clock.'},
+        {speaker:'A', who:'You', jp:'レストランはなんじまでですか？', romaji:'Resutoran wa nanji made desu ka?', en:'Until what time is the restaurant open?'},
+        {speaker:'B', who:'Staff', jp:'10じまでです。', romaji:'Juuji made desu.', en:'Until 10 o\'clock.'},
+      ]},
+      {type:'info', title:'りょかん · Traditional Inn', body:'Rooms have <b>tatami</b> floors and futon beds. Guests wear a <b>yukata</b> (light kimono). Meals (dinner + breakfast) are usually included, and many have a hot spring bath (<b>onsen</b>). Known for warm, attentive service — <b>omotenashi</b>.'},
+    ]
+  },
+  {
+    id:'dining', label:'Dining', sub:'Restaurant · Cafe · Conbini', stamp:'食',
+    intro:'Full conversations for eating out — restaurants, convenience stores, and cafes.',
+    sections:[
+      {type:'dialogue', title:'🍜 Restaurant — Getting Seated', lines:[
+        {speaker:'B', who:'Staff', jp:'いらっしゃいませ。なんめいさまですか？', romaji:'Irasshaimase. Nanmeisama desu ka?', en:'Welcome! How many people?'},
+        {speaker:'A', who:'You', jp:'ふたりです。', romaji:'Futari desu.', en:'Two people.'},
+        {speaker:'A', who:'You', jp:'どのくらいまちますか？', romaji:'Dono kurai machimasu ka?', en:'How long is the wait?'},
+        {speaker:'B', who:'Staff', jp:'15ふんくらいです。', romaji:'Juugo fun kurai desu.', en:'About 15 minutes.'},
+        {speaker:'A', who:'You', jp:'だいじょうぶです！', romaji:'Daijoubu desu!', en:"That's fine!"},
+      ]},
+      {type:'dialogue', title:'🍜 Restaurant — Ordering & Paying', lines:[
+        {speaker:'A', who:'You', jp:'すみません。ちゅうもんおねがいします。', romaji:'Sumimasen. Chuumon onegaishimasu.', en:"Excuse me, I'd like to order."},
+        {speaker:'B', who:'Staff', jp:'はーい！', romaji:'Haai!', en:'Coming right up!'},
+        {speaker:'A', who:'You', jp:'「ラーメン」をふたつと、「みず」をふたつおねがいします。', romaji:'"Ramen" o futatsu to, "mizu" o futatsu onegaishimasu.', en:'Two ramen and two waters, please.'},
+        {speaker:'B', who:'Staff', jp:'いじょうでよろしいですか？', romaji:'Ijou de yoroshii desu ka?', en:'Is that everything?'},
+        {speaker:'A', who:'You', jp:'はい、いじょうです。', romaji:'Hai, ijou desu.', en:"Yes, that's all."},
+        {speaker:'A', who:'You', jp:'すみません。おかいけいおねがいします。', romaji:'Sumimasen. Okaikei onegaishimasu.', en:'Excuse me, check please.'},
+        {speaker:'B', who:'Staff', jp:'かしこまりました。２５００えんです。', romaji:'Kashikomarimashita. Nisen gohyaku en desu.', en:'Certainly. That will be 2,500 yen.'},
+        {speaker:'B', who:'Staff', jp:'カードでいいですか？', romaji:'Kaado de ii desu ka?', en:'Is a card okay?'},
+        {speaker:'B', who:'Staff', jp:'レシートいりますか？', romaji:'Reshiito irimasu ka?', en:'Do you need a receipt?'},
+        {speaker:'A', who:'You', jp:'はい、おねがいします。ごちそうさまでした！', romaji:'Hai, onegaishimasu. Gochisousama deshita!', en:'Yes please. Thank you for the meal!'},
+      ]},
+      {type:'dialogue', title:'🏪 Convenience Store', lines:[
+        {speaker:'B', who:'Staff', jp:'あたためますか？', romaji:'Atatamemasu ka?', en:'Would you like it warmed up?'},
+        {speaker:'A', who:'You', jp:'はい、おねがいします。', romaji:'Hai, onegaishimasu.', en:'Yes, please.'},
+        {speaker:'B', who:'Staff', jp:'20さいいじょうですか？', romaji:'Nijussai ijou desu ka?', en:'Are you over 20?'},
+        {speaker:'A', who:'You', jp:'はい。', romaji:'Hai.', en:'Yes.'},
+        {speaker:'B', who:'Staff', jp:'ふくろいりますか？', romaji:'Fukuro irimasu ka?', en:'Do you need a bag?'},
+        {speaker:'A', who:'You', jp:'はい、おねがいします。', romaji:'Hai, onegaishimasu.', en:'Yes, please.'},
+        {speaker:'B', who:'Staff', jp:'レシートいりますか？', romaji:'Reshiito irimasu ka?', en:'Do you need a receipt?'},
+        {speaker:'A', who:'You', jp:'いいえ、だいじょうぶです。', romaji:'Iie, daijoubu desu.', en:"No, that's okay."},
+      ]},
+      {type:'dialogue', title:'☕ Cafe', lines:[
+        {speaker:'B', who:'Staff', jp:'ちゅうもんおきまりですか？', romaji:'Chuumon okimari desu ka?', en:'Are you ready to order?'},
+        {speaker:'A', who:'You', jp:'ホットコーヒーのＭひとつください。', romaji:'Hotto koohii no emu hitotsu kudasai.', en:'One medium hot coffee, please.'},
+        {speaker:'B', who:'Staff', jp:'店内ご利用ですか？', romaji:'Tennai goriyou desu ka?', en:'For here, or to go?'},
+        {speaker:'A', who:'You', jp:'てんないです。', romaji:'Tennai desu.', en:'For here.'},
+        {speaker:'A', who:'You', jp:'すみません。アーモンドミルクありますか？', romaji:'Sumimasen. Aamondo miruku arimasu ka?', en:'Excuse me, do you have almond milk?'},
+        {speaker:'B', who:'Staff', jp:'はい、ありますよ！', romaji:'Hai, arimasu yo!', en:'Yes, we have it!'},
+        {speaker:'A', who:'You', jp:'じゃあ、おねがいします！', romaji:'Jaa, onegaishimasu!', en:"Great, I'll have that please!"},
+      ]},
+      {type:'phrases', title:'Basic Dining Phrases', items:[
+        {jp:'ふたりです。', romaji:'Futari desu.', en:'Two people, please.'},
+        {jp:'どのくらいまちますか。', romaji:'Dono kurai machimasu ka?', en:'How long is the wait?'},
+        {jp:'ちゅうもんおねがいします。', romaji:'Chuumon onegaishimasu.', en:'May I order?'},
+        {jp:'ラーメンをひとつください。', romaji:'Raamen o hitotsu kudasai.', en:'Can I have one ramen?'},
+        {jp:'おかいけいおねがいします。', romaji:'Okaikei onegaishimasu.', en:'Check, please.'},
+        {jp:'カードでいいですか？', romaji:'Kaado de ii desu ka?', en:'Can I pay with a credit card?'},
+      ]},
+      {type:'phrases', title:'Advanced Phrases', items:[
+        {jp:'たまごのアレルギーがあります。', romaji:'Tamago no arerugii ga arimasu.', en:'I have an allergy to eggs.'},
+        {jp:'ベジタリアンメニューはありますか。', romaji:'Bejitarian menyuu wa arimasu ka?', en:'Do you have a vegetarian menu?'},
+        {jp:'おすすめはなんですか。', romaji:'Osusume wa nan desu ka?', en:'What do you recommend?'},
+        {jp:'これはなんですか。', romaji:'Kore wa nan desu ka?', en:'What is this?'},
+        {jp:'ごちそうさまでした。', romaji:'Gochisousama deshita.', en:'Thank you for the meal.'},
+      ]},
+    ]
+  },
+  {
+    id:'trouble', label:'Trouble', sub:'When You\'re in Trouble', stamp:'急',
+    intro:'Emergency phrases and safety know-how, just in case.',
+    sections:[
+      {type:'phrases', title:'General Help', items:[
+        {jp:'たすけてください。', romaji:'Tasukete kudasai.', en:'Please help me.'},
+        {jp:'わかりません。', romaji:'Wakarimasen.', en:"I don't understand."},
+        {jp:'もういちどいいですか。', romaji:'Mou ichido ii desu ka?', en:'Could you say that again?'},
+        {jp:'ゆっくりはなしてください。', romaji:'Yukkuri hanashite kudasai.', en:'Please speak slowly.'},
+        {jp:'えいごをはなしますか。', romaji:'Eigo o hanashimasu ka?', en:'Do you speak English?'},
+        {jp:'○○をなくしました。', romaji:'○○ o nakushimashita.', en:'I lost my ○○.'},
+      ]},
+      {type:'vocab', title:'Things You Might Lose', items:[
+        {emoji:'👛', jp:'さいふ', romaji:'saifu', en:'wallet'},
+        {emoji:'📱', jp:'スマホ', romaji:'sumaho', en:'smartphone'},
+        {emoji:'🔑', jp:'かぎ', romaji:'kagi', en:'key'},
+        {emoji:'🛂', jp:'パスポート', romaji:'pasupooto', en:'passport'},
+      ]},
+      {type:'phrases', title:'Emergency Phrases', items:[
+        {jp:'じしんです！', romaji:'Jishin desu!', en:"It's an earthquake!"},
+        {jp:'つなみがきます！', romaji:'Tsunami ga kimasu!', en:'A tsunami is coming!'},
+        {jp:'たすけてください！', romaji:'Tasukete kudasai!', en:'Please help me!'},
+        {jp:'ひなんばしょはどこですか？', romaji:'Hinanbasho wa doko desu ka?', en:'Where is the evacuation site?'},
+        {jp:'けがをしました。', romaji:'Kega o shimashita.', en:"I'm injured."},
+      ]},
+      {type:'info', title:'🌏 Earthquake Safety', body:'<b>Drop, cover, hold on</b> — get low, protect your head, stay under a table. Stay indoors until shaking stops; if outside, move away from buildings/power lines. Use stairs, never the elevator. Afterward: check for injuries, turn off the gas, follow official updates.'},
+      {type:'info', title:'🌊 Tsunami Safety', body:'Move to <b>higher ground immediately</b> — a hill, tall building, or marked evacuation area. Follow official evacuation signs and stay away from the beach, rivers, and low areas. <b>Never go back to the shore</b> — later waves can be bigger than the first. Wait for the official "all clear."'},
+    ]
+  },
+  {
+    id:'culture', label:'Culture & Quiz', sub:'Culture & Quiz', stamp:'祭',
+    intro:'Must-know kanji, fun facts, and a quick quiz to test yourself before you go.',
+    sections:[
+      {type:'vocab', title:'Must-Know Kanji', items:[
+        {emoji:'🚪', jp:'入口', romaji:'iriguchi', en:'entrance'},
+        {emoji:'🚪', jp:'出口', romaji:'deguchi', en:'exit'},
+        {emoji:'🚹', jp:'男', romaji:'otoko', en:'men'},
+        {emoji:'🚺', jp:'女', romaji:'onna', en:'women'},
+        {emoji:'🏷️', jp:'免税', romaji:'menzei', en:'tax-free'},
+        {emoji:'⚠️', jp:'危ない', romaji:'abunai', en:'danger'},
+      ]},
+      {type:'quiz', title:'🎌 Japan Quiz — tap to hear, then reveal the answer', items:[
+        {q_jp:'おんせんにはいるまえに、なにをしますか。', q_romaji:'Onsen ni hairu mae ni, nani o shimasu ka?', q_en:'Before entering an onsen, what should you do?', a_jp:'からだをあらいます。', a_romaji:'Karada o araimasu.', a_en:'Wash your body first.'},
+        {q_jp:'りょかんにはいるまえに、なにをぬぎますか。', q_romaji:'Ryokan ni hairu mae ni, nani o nugimasu ka?', q_en:'What do you take off before entering a ryokan?', a_jp:'くつをぬぎます。', a_romaji:'Kutsu o nugimasu.', a_en:'Take off your shoes.'},
+        {q_jp:'どのでんしゃでもたべてもいいですか。', q_romaji:'Dono densha demo tabete mo ii desu ka?', q_en:'Can you eat on every train?', a_jp:'いいえ。（しんかんせんだけOK）', a_romaji:'Iie. (Shinkansen dake OK)', a_en:'No — it\'s generally only fine on the Shinkansen.'},
+        {q_jp:'とうきょうでは、エスカレーターのどちらがわにたちますか。', q_romaji:'Toukyou de wa, esukareetaa no dochira gawa ni tachimasu ka?', q_en:'Which side do people stand on escalators in Tokyo?', a_jp:'ひだりです。（おおさかは みぎ）', a_romaji:'Hidari desu. (Oosaka wa migi)', a_en:'The left side. (In Osaka, it\'s the right side!)'},
+        {q_jp:'にほんのコンビニで、なにができますか。', q_romaji:'Nihon no konbini de, nani ga dekimasu ka?', q_en:'What can you do at a Japanese convenience store?', a_jp:'ぜんぶできます！コーヒー、ATM、チケット。', a_romaji:'Zenbu dekimasu! Koohii, ATM, chiketto.', a_en:'All of it! Buy coffee, use an ATM, buy concert tickets.'},
+        {q_jp:'じんじゃでおいのりをするまえに、なにをしますか。', q_romaji:'Jinja de oinori o suru mae ni, nani o shimasu ka?', q_en:'Before praying at a shrine, what do you do?', a_jp:'てをあらいます。', a_romaji:'Te o araimasu.', a_en:'Wash your hands (and mouth) first.'},
+        {q_jp:'ふじさんのたかさはなんメートルですか。', q_romaji:'Fujisan no takasa wa nan meetoru desu ka?', q_en:'How tall is Mt. Fuji?', a_jp:'さんぜんななひゃくななじゅうろくメートルです。', a_romaji:'Sanzen nanahyaku nanajuu roku meetoru desu.', a_en:'3,776 meters.'},
+      ]},
+      {type:'info', title:'⛩️ At a Shrine', body:'Bow once before entering the <b>torii</b> gate. Cleanse hands and mouth. Walk to the <b>side</b> of the path (the center is for the gods). At the offering box: throw a coin, bow twice, clap twice, pray silently, bow once more.'},
+      {type:'info', title:'🙏 At a Temple', body:'No clapping — join your hands quietly and pray. Incense smoke is for purification.'},
+      {type:'info', title:'✨ 7 Travel Tips', body:'① Always carry cash — some places are card-free even in big cities.<br>② Check restaurant hours — many close between lunch and dinner.<br>③ Don\'t stick chopsticks upright in rice — it echoes a funeral custom.<br>④ Take off your shoes at temples and traditional inns.<br>⑤ Trash cans are rare — carry a small bag for your own trash.<br>⑥ Look for elevators if you have luggage — some exits are stairs-only.<br>⑦ Give yourself extra time — trains and buses run right on schedule.'},
+    ]
+  },
+  {
+    id:'shopping', label:'Shopping', sub:'Shopping', stamp:'買',
+    intro:'Yen basics, shop vocabulary, and the phrases you need to ask prices, find things, and try them on.',
+    sections:[
+      {type:'vocab', title:'Japanese Yen｜にほんえん', items:[
+        {emoji:'💴', jp:'千円', romaji:'sen en', en:'1,000 yen note'},
+        {emoji:'💴', jp:'五千円', romaji:'go sen en', en:'5,000 yen note'},
+        {emoji:'💴', jp:'一万円', romaji:'ichi man en', en:'10,000 yen note'},
+        {emoji:'🪙', jp:'1円', romaji:'ichi en', en:'1 yen coin'},
+        {emoji:'🪙', jp:'5円', romaji:'go en', en:'5 yen coin'},
+        {emoji:'🪙', jp:'10円', romaji:'juu en', en:'10 yen coin'},
+        {emoji:'🪙', jp:'50円', romaji:'gojuu en', en:'50 yen coin'},
+        {emoji:'🪙', jp:'100円', romaji:'hyaku en', en:'100 yen coin'},
+        {emoji:'🪙', jp:'500円', romaji:'gohyaku en', en:'500 yen coin'},
+      ]},
+      {type:'vocab', title:'Shop Items｜おみせのもの', items:[
+        {emoji:'👕', jp:'Tシャツ', romaji:'t-shatsu', en:'t-shirt (¥1,532)'},
+        {emoji:'👟', jp:'くつ', romaji:'kutsu', en:'shoes (¥7,930)'},
+        {emoji:'🍵', jp:'まっちゃ', romaji:'maccha', en:'matcha (¥782)'},
+        {emoji:'🧸', jp:'ぬいぐるみ', romaji:'nuigurumi', en:'stuffed animal (¥2,805)'},
+        {emoji:'👘', jp:'きもの', romaji:'kimono', en:'kimono (¥12,000)'},
+        {emoji:'👉', jp:'これ', romaji:'kore', en:'this (¥300)'},
+      ]},
+      {type:'phrases', title:'Key Questions', items:[
+        {jp:'すみません。【　】はいくらですか。', romaji:'Sumimasen. 【　】 wa ikura desu ka?', en:'Excuse me, how much is 【　】?'},
+        {jp:'【　】えんです。', romaji:'【　】 en desu.', en:'It\'s 【　】 yen.'},
+        {jp:'すみません。【　】はどこですか。', romaji:'Sumimasen. 【　】 wa doko desu ka?', en:'Excuse me, where is 【　】?'},
+        {jp:'【　】です。', romaji:'【　】 desu.', en:'It\'s 【　】.'},
+        {jp:'すみません。【　】はなんがいですか。', romaji:'Sumimasen. 【　】 wa nangai desu ka?', en:'Excuse me, what floor is 【　】on?'},
+        {jp:'【　】かいです。', romaji:'【　】 kai desu.', en:'It\'s on the 【　】floor.'},
+      ]},
+      {type:'vocab', title:'こちら・そちら・あちら "here / there"', items:[
+        {emoji:'👇', jp:'こちら', romaji:'kochira', en:'here (close to the speaker)'},
+        {emoji:'👉', jp:'そちら', romaji:'sochira', en:'there (close to the listener)'},
+        {emoji:'👈', jp:'あちら', romaji:'achira', en:'over there (far from both)'},
+      ]},
+      {type:'vocab', title:'Floors｜かい', items:[
+        {emoji:'☕', jp:'３かい・さんがい', romaji:'san gai', en:'3rd floor — cafe'},
+        {emoji:'🍽️', jp:'２かい・にかい', romaji:'ni kai', en:'2nd floor — restaurant'},
+        {emoji:'🚻', jp:'１かい・いっかい', romaji:'ikkai', en:'1st floor — restroom'},
+        {emoji:'💊', jp:'Ｂ１かい・ちかいっかい', romaji:'chika ikkai', en:'basement 1st floor — pharmacy'},
+      ]},
+      {type:'dialogue', title:'Trying Something On', lines:[
+        {speaker:'A', who:'You', jp:'すみません。しちゃくできますか。', romaji:'Sumimasen. Shichaku dekimasu ka?', en:'Excuse me, can I try this on?'},
+        {speaker:'B', who:'Staff', jp:'はい。こちらです。どうぞ。', romaji:'Hai. Kochira desu. Douzo.', en:'Yes. Here you go. Please.'},
+      ]},
+      {type:'dialogue', title:'Asking for Gift Wrapping', lines:[
+        {speaker:'A', who:'You', jp:'こわれないようにつつんでもらえますか。', romaji:'Kowarenai you ni tsutsunde moraemasu ka?', en:"Could you wrap this so it won't break?"},
+        {speaker:'B', who:'Staff', jp:'はい。かしこまりました。', romaji:'Hai. Kashikomarimashita.', en:'Yes, certainly.'},
+      ]},
+      {type:'dialogue', title:'Asking How Many Pieces', lines:[
+        {speaker:'A', who:'You', jp:'なんこはいっていますか。', romaji:'Nanko haitte imasu ka?', en:'How many pieces are in this?'},
+        {speaker:'B', who:'Staff', jp:'10こはいっています。', romaji:'Jukko haitte imasu.', en:'There are 10 pieces.'},
+      ]},
+      {type:'dialogue', title:'Eating Now, or Takeout?', lines:[
+        {speaker:'B', who:'Staff', jp:'いまたべますか。', romaji:'Ima tabemasu ka?', en:'Will you eat it now?'},
+        {speaker:'A', who:'You', jp:'はい。いまたべます。', romaji:'Hai. Ima tabemasu.', en:"Yes, I'll eat it now."},
+        {speaker:'A', who:'You', jp:'もちかえりでおねがいします。', romaji:'Mochikaeri de onegaishimasu.', en:'Takeout, please.'},
+      ]},
+      {type:'info', title:'📝 Summary', body:'① いくらですか — How much is it?<br>② ○○はどこですか — Where is ○○?<br>③ ○○はなんかいですか — What floor is ○○ on?<br>④ しちゃくできますか — Can I try this on?'},
+    ]
+  },
+];
+
+/* =========================================================
+   SPEECH ENGINE
+   ========================================================= */
+let currentRate = 0.95;
+let jaVoice = null;
+let isPlayingAll = false;
+let playAllQueue = [];
+let playAllIndex = 0;
+let currentSpeakingEl = null;
+
+function loadVoices(){
+  const voices = speechSynthesis.getVoices();
+  jaVoice = voices.find(v => v.lang === 'ja-JP') || voices.find(v => v.lang && v.lang.startsWith('ja'));
+  document.getElementById('voiceNote').classList.toggle('show', !jaVoice && voices.length > 0);
+}
+if('speechSynthesis' in window){
+  loadVoices();
+  speechSynthesis.onvoiceschanged = loadVoices;
+} else {
+  document.getElementById('voiceNote').classList.add('show');
+  document.getElementById('voiceNote').textContent = '⚠️ Your browser does not support speech synthesis. Try Chrome, Safari, or Edge.';
+}
+
+function speak(text, el, onEnd){
+  if(!('speechSynthesis' in window)) { if(onEnd) onEnd(); return; }
+  speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = 'ja-JP';
+  if(jaVoice) utter.voice = jaVoice;
+  utter.rate = currentRate;
+  utter.pitch = 1;
+
+  clearPlayingStyles();
+  if(el){ el.classList.add('playing'); currentSpeakingEl = el; }
+
+  utter.onend = () => {
+    if(el) el.classList.remove('playing');
+    if(onEnd) onEnd();
+  };
+  utter.onerror = () => {
+    if(el) el.classList.remove('playing');
+    if(onEnd) onEnd();
+  };
+  speechSynthesis.speak(utter);
+}
+
+function clearPlayingStyles(){
+  document.querySelectorAll('.playing').forEach(n => n.classList.remove('playing'));
+}
+
+function stopAll(){
+  speechSynthesis.cancel();
+  isPlayingAll = false;
+  playAllQueue = [];
+  playAllIndex = 0;
+  clearPlayingStyles();
+  const btn = document.getElementById('playAllBtn');
+  btn.textContent = '▶  Play all in this tab';
+  btn.classList.remove('playing');
+}
+
+/* =========================================================
+   RENDER
+   ========================================================= */
+const tabBar = document.getElementById('tabBar');
+const main = document.getElementById('main');
+let activeTabId = TABS[0].id;
+
+function renderTabs(){
+  tabBar.innerHTML = '';
+  TABS.forEach(tab => {
+    const btn = document.createElement('button');
+    btn.className = 'tab-btn' + (tab.id === activeTabId ? ' active' : '');
+    btn.innerHTML = `<span class="stamp">${tab.stamp}</span><span>${tab.label}</span>`;
+    btn.addEventListener('click', () => {
+      stopAll();
+      activeTabId = tab.id;
+      renderTabs();
+      renderPanels();
+    });
+    tabBar.appendChild(btn);
+  });
+}
+
+function vocabCard(item){
+  const card = document.createElement('div');
+  card.className = 'vocab-card';
+  card.innerHTML = `
+    <div class="mini-play">🔊</div>
+    <span class="vocab-emoji">${item.emoji}</span>
+    <div class="vocab-jp">${item.jp}</div>
+    <div class="vocab-romaji">${item.romaji || ''}</div>
+    <div class="vocab-en">${item.en}</div>
+  `;
+  card.dataset.jp = item.jp;
+  card.addEventListener('click', () => speak(item.jp, card));
+  return card;
+}
+
+function dialogueLine(line){
+  const wrap = document.createElement('div');
+  wrap.className = 'dlg-line speaker' + line.speaker;
+  const initials = line.who ? line.who[0] : (line.speaker === 'A' ? 'Y' : 'S');
+  wrap.innerHTML = `
+    <div class="dlg-avatar" title="${line.who || ''}">${initials}</div>
+    <div class="bubble">
+      <div class="jp">${line.jp}</div>
+      ${line.romaji ? `<div class="romaji">${line.romaji}</div>` : ''}
+      <div class="en">${line.en}</div>
+      <div class="tap-hint">tap to hear 🔊</div>
+    </div>
+  `;
+  const bubble = wrap.querySelector('.bubble');
+  bubble.dataset.jp = line.jp;
+  bubble.addEventListener('click', () => speak(line.jp, bubble));
+  return wrap;
+}
+
+function phraseItem(item){
+  const row = document.createElement('div');
+  row.className = 'phrase-item';
+  row.innerHTML = `
+    <div class="phrase-play">🔊</div>
+    <div class="phrase-text">
+      <div class="jp">${item.jp}</div>
+      ${item.romaji ? `<div class="romaji">${item.romaji}</div>` : ''}
+      <div class="en">${item.en}</div>
+    </div>
+  `;
+  row.dataset.jp = item.jp;
+  row.addEventListener('click', () => speak(item.jp, row));
+  return row;
+}
+
+function quizCard(item){
+  const card = document.createElement('div');
+  card.className = 'quiz-card';
+  card.innerHTML = `
+    <div class="quiz-q">
+      <div class="phrase-play">🔊</div>
+      <div class="phrase-text">
+        <div class="jp">${item.q_jp}</div>
+        ${item.q_romaji ? `<div class="romaji">${item.q_romaji}</div>` : ''}
+        <div class="en">${item.q_en}</div>
+      </div>
+    </div>
+    <span class="quiz-toggle">Show answer ▾</span>
+    <div class="quiz-answer">
+      <div class="phrase-play">🔊</div>
+      <div class="phrase-text">
+        <div class="jp">${item.a_jp}</div>
+        ${item.a_romaji ? `<div class="romaji">${item.a_romaji}</div>` : ''}
+        <div class="en">${item.a_en}</div>
+      </div>
+    </div>
+  `;
+  const q = card.querySelector('.quiz-q');
+  q.dataset.jp = item.q_jp;
+  q.addEventListener('click', () => speak(item.q_jp, q));
+
+  const ans = card.querySelector('.quiz-answer');
+  ans.dataset.jp = item.a_jp;
+  ans.addEventListener('click', () => speak(item.a_jp, ans));
+
+  const toggle = card.querySelector('.quiz-toggle');
+  toggle.addEventListener('click', () => {
+    const showing = ans.classList.toggle('show');
+    toggle.textContent = showing ? 'Hide answer ▴' : 'Show answer ▾';
+  });
+  return card;
+}
+
+function renderSection(sec, index){
+  const block = document.createElement('section');
+  block.className = 'block';
+
+  if(sec.type !== 'info'){
+    const titleWrap = document.createElement('div');
+    titleWrap.className = 'block-title';
+    titleWrap.innerHTML = `<span class="num">${String(index+1).padStart(2,'0')}</span><h3>${sec.title}</h3>`;
+    block.appendChild(titleWrap);
+  }
+
+  if(sec.type === 'vocab'){
+    const grid = document.createElement('div');
+    grid.className = 'vocab-grid';
+    sec.items.forEach(it => grid.appendChild(vocabCard(it)));
+    block.appendChild(grid);
+  }
+  else if(sec.type === 'dialogue'){
+    const titleWrap = block.querySelector('.block-title h3');
+    if(titleWrap) titleWrap.textContent = sec.title;
+    const wrap = document.createElement('div');
+    wrap.className = 'dialogue-wrap';
+    sec.lines.forEach(l => wrap.appendChild(dialogueLine(l)));
+    block.appendChild(wrap);
+  }
+  else if(sec.type === 'phrases'){
+    const list = document.createElement('div');
+    list.className = 'phrase-list';
+    sec.items.forEach(it => list.appendChild(phraseItem(it)));
+    block.appendChild(list);
+  }
+  else if(sec.type === 'quiz'){
+    sec.items.forEach(it => block.appendChild(quizCard(it)));
+  }
+  else if(sec.type === 'info'){
+    const card = document.createElement('div');
+    card.className = 'info-card';
+    card.innerHTML = `<h4>${sec.title}</h4><p>${sec.body}</p>`;
+    block.appendChild(card);
+  }
+  return block;
+}
+
+function renderPanels(){
+  main.innerHTML = '';
+  const tab = TABS.find(t => t.id === activeTabId);
+  const panel = document.createElement('div');
+  panel.className = 'tab-panel active';
+
+  const introEl = document.createElement('div');
+  introEl.className = 'tab-intro';
+  introEl.innerHTML = `<span class="stamp">${tab.stamp}</span><div><h2>${tab.label} <span style="color:var(--ink-soft);font-weight:500;font-size:14px;">— ${tab.sub}</span></h2><p>${tab.intro}</p></div>`;
+  panel.appendChild(introEl);
+
+  tab.sections.forEach((sec, i) => panel.appendChild(renderSection(sec, i)));
+  main.appendChild(panel);
+}
+
+/* =========================================================
+   PLAY ALL
+   ========================================================= */
+document.getElementById('playAllBtn').addEventListener('click', () => {
+  if(isPlayingAll){
+    stopAll();
+    return;
+  }
+  const items = Array.from(main.querySelectorAll('[data-jp]'));
+  if(items.length === 0) return;
+
+  isPlayingAll = true;
+  playAllQueue = items;
+  playAllIndex = 0;
+  const btn = document.getElementById('playAllBtn');
+  btn.textContent = '■  Stop';
+  btn.classList.add('playing');
+
+  const playNext = () => {
+    if(!isPlayingAll || playAllIndex >= playAllQueue.length){
+      stopAll();
+      return;
+    }
+    const el = playAllQueue[playAllIndex];
+    el.scrollIntoView({behavior:'smooth', block:'center'});
+    speak(el.dataset.jp, el, () => {
+      playAllIndex++;
+      setTimeout(playNext, 250);
+    });
+  };
+  playNext();
+});
+
+/* =========================================================
+   SPEED CONTROL
+   ========================================================= */
+document.querySelectorAll('.speed-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.speed-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentRate = parseFloat(btn.dataset.rate);
+  });
+});
+
+/* =========================================================
+   INIT
+   ========================================================= */
+renderTabs();
+renderPanels();
+</script>
+</body>
+</html>
