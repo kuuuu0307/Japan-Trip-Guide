@@ -1036,6 +1036,14 @@ body *{font-style:normal !important;}               /* design system: no italics
 .app-title{white-space:normal; overflow:hidden; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; line-height:1.2; font-size:clamp(17px,4.8vw,24px);}
 .page-intro{margin:16px 0 4px;}
 #bjpControlBar, #keigoControlBar{top:64px; z-index:55;}
+
+/* ---- English-only page titles; Print link sits in the tab row, above the speed control ---- */
+.page-stamp{display:none !important;}
+.tabs-row{display:flex; align-items:center; justify-content:space-between; gap:12px;}
+.tabs-row .section-tabs{flex:1 1 auto; min-width:0;}
+.tab-print{flex:0 0 auto; font-size:14px; line-height:20px; white-space:nowrap;}
+.tab-print .pl-short{display:none;}
+@media (max-width:560px){ .tab-print .pl-full{display:none;} .tab-print .pl-short{display:inline;} }
 </style>
 </head>
 <body>
@@ -1154,7 +1162,7 @@ body *{font-style:normal !important;}               /* design system: no italics
       </div>
     </div>
   </header>
-  <div class="tabs-wrap"><div class="wrap"><div class="section-tabs" id="sectionTabs"></div></div></div>
+  <div class="tabs-wrap"><div class="wrap tabs-row"><div class="section-tabs" id="sectionTabs"></div><button class="link-btn tab-print" id="studyBlock" onclick="openPrintView()"><span class="pl-full">Print this page</span><span class="pl-short">Print</span></button></div></div>
 
   <div class="wrap">
     <div class="subtab-row" id="subtabRow" style="display:none;"></div>
@@ -1176,9 +1184,7 @@ body *{font-style:normal !important;}               /* design system: no italics
       <h2 class="learn-h">Learn</h2>
       <p class="learn-sub" id="pageSubtitle"></p>
       <div id="learnContent"></div>
-      <div class="study" id="studyBlock">
-        <div class="study-print"><button class="link-btn" onclick="openPrintView()">Print this page</button></div>
-      </div>
+
     </div>
     <div class="view" id="view-simulate">
       <div class="block-title"><span class="icon">🎬</span><h2>Practice</h2></div>
@@ -2972,7 +2978,7 @@ function renderReviewView(){
     : allVocabFlat(currentContext);
   const mistakes = items.filter(v => learningLog[v.id] && learningLog[v.id].lastResult === 'incorrect');
   if(mistakes.length === 0){
-    wrap.innerHTML = `<div class="empty-state">🎉 No mistakes to review right now.<br>Study the flashcards to build up your review list.</div>`;
+    wrap.innerHTML = `<div class="empty-state">No mistakes to review right now.<br>Study the flashcards to build up your review list.</div>`;
     return;
   }
   buildFlashcardSession(wrap, mistakes);
@@ -3750,7 +3756,7 @@ function openCulture(){
   quizBtn.addEventListener('click', () => showCultureTab('quiz'));
   tabBar.appendChild(learnBtn);
   tabBar.appendChild(quizBtn);
-  setStudyVisible(false);
+  setStudyVisible(true);
   document.getElementById('controlBar').style.display = 'block';
   const subRow = document.getElementById('subtabRow');
   subRow.style.display = 'none';
@@ -3983,7 +3989,7 @@ function switchKanaMode(mode){
     const wrap = document.getElementById('kanaReviewWrap');
     const mistakes = kanaFlatItems(currentKanaScript).filter(it => learningLog[it.id] && learningLog[it.id].lastResult === 'incorrect');
     if(mistakes.length === 0){
-      wrap.innerHTML = `<div class="empty-state">🎉 No mistakes to review for ${currentKanaScript === 'hiragana' ? 'Hiragana' : 'Katakana'} right now.</div>`;
+      wrap.innerHTML = `<div class="empty-state">No mistakes to review for ${currentKanaScript === 'hiragana' ? 'Hiragana' : 'Katakana'} right now.</div>`;
     } else {
       buildFlashcardSession(wrap, [...mistakes].sort(() => Math.random()-0.5));
     }
@@ -4551,7 +4557,7 @@ function openGlobalReview(){
   const mistakes = allItems.filter(v => learningLog[v.id] && learningLog[v.id].lastResult === 'incorrect');
   const wrap = document.getElementById('reviewWrap');
   if(mistakes.length === 0){
-    wrap.innerHTML = `<div class="empty-state">🎉 No mistakes to review — nice work!</div>`;
+    wrap.innerHTML = `<div class="empty-state">No mistakes to review — nice work!</div>`;
   } else {
     buildFlashcardSession(wrap, mistakes);
   }
